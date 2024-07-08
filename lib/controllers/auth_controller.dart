@@ -1,34 +1,31 @@
 import 'package:get/get.dart';
-import '../services/database_helper.dart'; // Adjust import path as necessary
+import '../models/user.dart';
+import '../services/database.dart';
 
 class AuthController extends GetxController {
-  RxBool isLoggedIn = false.obs; // Observable for tracking login state
+  final Rxn<User> _user = Rxn<User>();
 
-  Future<void> login(String username, String password) async {
-    Map<String, dynamic>? user = await dbHelper.getUser(username, password);
+  User? get user => _user.value;
+
+  Future<void> register(String username, String email, String password) async {
+    final user = User(username: username, email: email, password: password);
+    await DatabaseHelper.instance.registerUser(user);
+    _user.value = user;
+    Get.snackbar('Success', 'Registration successful');
+  }
+
+  Future<void> login(String email, String password) async {
+    final user = await DatabaseHelper.instance.loginUser(email, password);
     if (user != null) {
-      isLoggedIn.value = true;
-      // Navigate to home or another page
-      Get.offAllNamed('/home'); // Replace '/home' with your home route
+      _user.value = user;
+      Get.offAllNamed('/home');
     } else {
-      Get.snackbar('Error', 'Invalid username or password');
+      Get.snackbar('Error', 'Invalid credentials');
     }
   }
 
-  Future<void> signUp(String username, String password) async {
-    Map<String, dynamic> user = {
-      'username': username,
-      'password': password,
-    };
-
-    await dbHelper.insertUser(user);
-    Get.back(); // Navigate back to login page
-    Get.snackbar('Success', 'Account created successfully');
-  }
-
-  void logout() async {
-    await dbHelper.logout();
-    isLoggedIn.value = false;
-    Get.offAllNamed('/login'); // Navigate to login page
+  void logout() {
+    _user.value = null;
+    Get.offAllNamed('/login');
   }
 }

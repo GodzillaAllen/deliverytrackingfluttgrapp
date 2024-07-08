@@ -1,28 +1,26 @@
-// custom_textfield.dart
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
-  final String hintText;
   final TextEditingController controller;
+  final String labelText;
   final bool obscureText;
+  final FormFieldValidator<String>? validator;
 
   const CustomTextField({
     super.key,
-    required this.hintText,
     required this.controller,
+    required this.labelText,
     this.obscureText = false,
+    this.validator,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: controller,
+      decoration: InputDecoration(labelText: labelText),
       obscureText: obscureText,
-      decoration: InputDecoration(
-        hintText: hintText,
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-      ),
+      validator: validator,
     );
   }
 }
