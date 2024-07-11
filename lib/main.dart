@@ -1,10 +1,10 @@
+import 'package:deliverytrackingfluttgrapp/screens/edit_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'screens/login_screen.dart';
-import 'screens/home_screen.dart';
-import 'screens/profile_screen.dart';
-import 'screens/register_screen.dart';
-import 'screens/settings_screen.dart';
+import 'screens/main_screen.dart';
+import 'screens/create_order_screen.dart';
+import 'screens/order_history_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,41 +16,36 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Delivery Tracking System',
       theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: Colors.black, // Setting primary color to black
-        hintColor: Colors.white, // Setting accent color to white
-        scaffoldBackgroundColor:
-            Colors.white, // Setting scaffold background color to white
+        // colorScheme: ColorScheme.fromSwatch().copyWith(
+        //   primary: Colors.black,
+        //   secondary: Colors.black,
+        // ),
+        scaffoldBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(
-          backgroundColor:
-              Colors.black, // Setting app bar background color to black
-          foregroundColor: Colors.white, // Setting app bar text color to white
-        ),
+            backgroundColor: Colors.black,
+            iconTheme: IconThemeData(color: Colors.white),
+            titleTextStyle: TextStyle(color: Colors.white)),
+        // bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        //   backgroundColor: Colors.white,
+        //   selectedItemColor: Colors.black,
+        //   unselectedItemColor: Colors.grey,
+        // ),
+        // textTheme: const TextTheme(
+        //   bodyLarge: TextStyle(color: Colors.black),
+        //   bodyMedium: TextStyle(color: Colors.black),
+        //   bodySmall: TextStyle(color: Colors.black),
+        // ),
       ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        primaryColor:
-            Colors.white, // Setting primary color to white in dark theme
-        hintColor: Colors.black, // Setting accent color to black in dark theme
-        scaffoldBackgroundColor: Colors
-            .black, // Setting scaffold background color to black in dark theme
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors
-              .white, // Setting app bar background color to white in dark theme
-          foregroundColor:
-              Colors.black, // Setting app bar text color to black in dark theme
-        ),
-      ),
-      themeMode: ThemeMode.system, // Use system theme mode (light/dark)
       initialRoute: '/',
       getPages: [
         GetPage(name: '/', page: () => LoginScreen()),
-        GetPage(name: '/register', page: () => RegisterScreen()),
-        GetPage(name: '/home', page: () => const HomeScreen()),
-        GetPage(name: '/profile', page: () => const ProfileScreen()),
-        GetPage(name: '/settings', page: () => const SettingsScreen()),
+        GetPage(name: '/home', page: () => const MainScreen()),
+        GetPage(name: '/edit_profile', page: () => const EditProfileScreen()),
+        GetPage(name: '/create_order', page: () => CreateOrderScreen()),
+        GetPage(name: '/order_history', page: () => OrderHistoryScreen()),
       ],
     );
   }
