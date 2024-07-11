@@ -19,7 +19,7 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
   static final List<Widget> _pages = <Widget>[
-    HomeScreen(),
+    const HomeScreen(),
     CreateOrderScreen(),
     OrderHistoryScreen(),
     SettingsScreen(),

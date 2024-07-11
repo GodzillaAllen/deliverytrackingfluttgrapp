@@ -43,6 +43,7 @@ class OrderController extends GetxController {
           userLocation: userLocation,
           orderDate: now.toIso8601String(),
           orderDestination: orderDestination,
+          status: 'Revewing',
         );
         await DatabaseHelper.instance.createOrder(order);
         _orders.add(order);

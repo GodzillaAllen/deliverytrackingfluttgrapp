@@ -1,12 +1,14 @@
 import 'package:deliverytrackingfluttgrapp/screens/edit_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'controllers/auth_controller.dart';
 import 'screens/login_screen.dart';
 import 'screens/main_screen.dart';
 import 'screens/create_order_screen.dart';
 import 'screens/order_history_screen.dart';
 
 void main() {
+  Get.put(AuthController());
   runApp(const MyApp());
 }
 

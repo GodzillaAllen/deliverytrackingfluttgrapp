@@ -46,6 +46,7 @@ class DatabaseHelper {
         userLocation TEXT NOT NULL,
         orderDate TEXT NOT NULL,
         orderDestination TEXT NOT NULL,
+        status TEXT NOT NULL,
         FOREIGN KEY (userId) REFERENCES users (id)
       )
     ''');

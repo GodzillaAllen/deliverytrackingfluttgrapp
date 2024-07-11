@@ -50,6 +50,8 @@ class EditProfileScreen extends StatelessWidget {
                 if (user != null) {
                   authController
                       .updateUser(user); // Update user in AuthController
+                  usernameController.clear();
+                  emailController.clear();
                   Get.snackbar('Success', 'Profile updated successfully');
                 }
               },

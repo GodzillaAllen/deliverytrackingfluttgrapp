@@ -6,6 +6,7 @@ class Order {
   final String userLocation;
   final String orderDate;
   final String orderDestination;
+  final String status;
 
   Order({
     this.id,
@@ -15,6 +16,7 @@ class Order {
     required this.userLocation,
     required this.orderDate,
     required this.orderDestination,
+    required this.status,
   });
 
   factory Order.fromMap(Map<String, dynamic> json) => Order(
@@ -25,6 +27,7 @@ class Order {
         userLocation: json['userLocation'],
         orderDate: json['orderDate'],
         orderDestination: json['orderDestination'],
+        status: json['status'],
       );
 
   Map<String, dynamic> toMap() {
@@ -36,6 +39,7 @@ class Order {
       'userLocation': userLocation,
       'orderDate': orderDate,
       'orderDestination': orderDestination,
+      'status': status,
     };
   }
 }

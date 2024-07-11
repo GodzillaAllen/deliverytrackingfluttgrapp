@@ -1,20 +1,23 @@
 // lib/pages/home_page.dart
 
-import 'package:deliverytrackingfluttgrapp/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../controllers/auth_controller.dart';
+import '../models/user.dart';
 import '../widgets/build_current_shipment_card.dart';
 import '../widgets/build_shipment_card.dart';
 import '../widgets/build_action_item.dart';
 import '../widgets/build_view_all_label.dart';
 
 class HomeScreen extends StatelessWidget {
-  final AuthController authController = Get.find();
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final AuthController authController =
+        Get.put(AuthController()); // Use Get.find to retrieve AuthController
+    final User? user = authController.user;
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -22,21 +25,11 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Obx(() {
-                final user = authController.user;
-                // Get.snackbar("title", user!.createdAt);
-                if (user == null) {
-                  return const Text('No user information available');
-                } else {
-                  return Column(
-                    children: [
-                      Text('Username: ${user.username}'),
-                      Text('Email: ${user.email}'),
-                      Text('Phone: ${user.userPhoneNumber}'),
-                    ],
-                  );
-                }
-              }),
+              Text(
+                "Let's Track Your Package ${user!.username}",
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 10),
               TextField(
                 decoration: InputDecoration(

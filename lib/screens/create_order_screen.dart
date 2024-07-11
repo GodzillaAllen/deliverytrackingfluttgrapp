@@ -23,6 +23,9 @@ class CreateOrderScreen extends StatelessWidget {
       orderController.createOrder(
           userPhoneNumber, userLocation, orderDestination);
     }
+    _userPhoneNumberController.clear();
+    _userLocationController.clear();
+    _orderDestinationController.clear();
   }
 
   @override
