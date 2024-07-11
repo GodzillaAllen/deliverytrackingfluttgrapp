@@ -1,10 +1,9 @@
+import 'package:deliverytrackingfluttgrapp/screens/explore_order_screen.dart';
 import 'package:deliverytrackingfluttgrapp/screens/home_screen.dart';
 import 'package:deliverytrackingfluttgrapp/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../controllers/auth_controller.dart';
-import 'create_order_screen.dart';
-import 'order_history_screen.dart';
+
+import 'all_order_history_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -15,13 +14,16 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final AuthController authController = Get.put(AuthController());
+  // final AuthController authController = Get.put(AuthController());
   int _selectedIndex = 0;
 
   static final List<Widget> _pages = <Widget>[
     const HomeScreen(),
-    CreateOrderScreen(),
-    OrderHistoryScreen(),
+    // CreateOrderScreen(),
+    ExploreOrdersScreen(),
+    AllOrderHistoryScreen(),
+
+    // AcceptedOrdersByCourierScreen(),
     SettingsScreen(),
   ];
 
@@ -34,28 +36,15 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // systemOverlayStyle: const SystemUiOverlayStyle(
-        // systemNavigationBarColor: Colors.white, // Navigation bar
-        // statusBarColor: Colors.white,
-        // ),
-        // backgroundColor: Colors.white,
-        title: const Text('Home'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications),
-            onPressed: () {
-              // Handle notification icon press
-            },
-          ),
-          // IconButton(
-          //   icon: const Icon(Icons.logout),
-          //   onPressed: () {
-          //     authController.logout();
-          //   },
-          // ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Delivery Tracking App'),
+      //   actions: [
+      //     IconButton(
+      //       icon: const Icon(Icons.notifications),
+      //       onPressed: () {},
+      //     ),
+      //   ],
+      // ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
@@ -66,9 +55,13 @@ class _MainScreenState extends State<MainScreen> {
             icon: Icon(Icons.home),
             label: 'Home',
           ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.add),
+          //   label: 'Create Order',
+          // ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: 'Create Order',
+            icon: Icon(Icons.search),
+            label: 'Explore Orders',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history),

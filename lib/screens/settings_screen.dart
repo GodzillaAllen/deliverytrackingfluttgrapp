@@ -12,18 +12,21 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Setting"),
+      ),
       body: ListView(
         children: [
           ListTile(
             leading: const Icon(Icons.person),
-            title: const Text('Edit Profile'),
+            title: const Text('User Name Change'),
             onTap: () {
               Get.toNamed('/edit_profile');
             },
           ),
           ListTile(
-            leading: const Icon(Icons.history),
-            title: const Text('Order History'),
+            leading: const Icon(Icons.password),
+            title: const Text('Change Password'),
             onTap: () {
               Get.to(() => OrderHistoryScreen());
             },

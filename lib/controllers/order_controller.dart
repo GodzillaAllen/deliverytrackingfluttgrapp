@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:get/get.dart';
 import '../models/order.dart';
+import '../models/user.dart';
 import '../services/database.dart';
 import 'auth_controller.dart';
 
@@ -32,18 +35,20 @@ class OrderController extends GetxController {
     String userLocation,
     String orderDestination,
   ) async {
-    final user = authController.user;
+    // Use Get.find to retrieve AuthController
+    final User? user = authController.user;
+
     if (user != null) {
       try {
         final now = DateTime.now();
         final order = Order(
           userId: user.id!,
-          orderNumber: generateOrderNumber(),
+          orderNumber: "#${generateOrderNumber(10)}",
           userPhoneNumber: userPhoneNumber,
           userLocation: userLocation,
           orderDate: now.toIso8601String(),
           orderDestination: orderDestination,
-          status: 'Revewing',
+          status: 'pending',
         );
         await DatabaseHelper.instance.createOrder(order);
         _orders.add(order);
@@ -56,7 +61,33 @@ class OrderController extends GetxController {
     }
   }
 
-  generateOrderNumber() {
-    return "12344";
+  generateOrderNumber(int length) {
+    const String chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+    Random rnd = Random();
+
+    return String.fromCharCodes(Iterable.generate(
+      length,
+      (_) => chars.codeUnitAt(rnd.nextInt(chars.length)),
+    ));
+  }
+
+  Future<void> acceptOrder(int orderId, String s) async {
+    await DatabaseHelper.instance.updateOrderStatus(orderId, s);
+    _loadOrders(); // Reload orders to get the updated status
+  }
+
+  Future<void> fetchPendingOrders() async {
+    final pendingOrders = await DatabaseHelper.instance.getPendingOrders();
+    _orders.assignAll(pendingOrders);
+  }
+
+  void searchOrders(String query) {
+    // Example: Filter orders based on orderNumber or user details
+    final filteredOrders = _orders.where((order) =>
+        order.orderNumber.toLowerCase().contains(query.toLowerCase()) ||
+        order.userPhoneNumber.toLowerCase().contains(query.toLowerCase()) ||
+        order.userLocation.toLowerCase().contains(query.toLowerCase()));
+
+    _orders.assignAll(filteredOrders.toList());
   }
 }

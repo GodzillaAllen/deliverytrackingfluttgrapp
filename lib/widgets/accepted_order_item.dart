@@ -1,16 +1,15 @@
-// lib/widgets/build_shipment_card.dart
-import 'package:deliverytrackingfluttgrapp/models/order.dart';
+import 'package:deliverytrackingfluttgrapp/screens/accepted_order_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../models/accepted_order.dart';
+// Import your AcceptedOrder model
 
-import '../screens/order_detail_screen.dart';
-
-Widget buildShipmentCard(
-  Order order,
-) {
+Widget acceptedOrderItem(AcceptedOrder acceptedOrder) {
   return InkWell(
     onTap: () {
-      Get.to(OrderDetailScreen(order: order));
+      Get.to(AcceptedOrderDetailScreen(
+        acceptedOrder: acceptedOrder,
+      ));
     },
     child: Card(
       margin: const EdgeInsets.all(8.0),
@@ -21,10 +20,10 @@ Widget buildShipmentCard(
           child: Icon(Icons.local_shipping, color: Colors.white),
         ),
         title: Text(
-          order.orderNumber,
+          acceptedOrder.orderNumber,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        subtitle: Text(order.status),
+        subtitle: Text(acceptedOrder.status),
         trailing: const Icon(
           Icons.arrow_forward,
           color: Colors.black,

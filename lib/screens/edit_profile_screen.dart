@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/auth_controller.dart'; // Ensure AuthController is imported
-import '../models/user.dart'; // Import your User model
+import '../models/user.dart';
+import '../widgets/custom_button.dart'; // Import your User model
 
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({super.key});
@@ -45,7 +46,7 @@ class EditProfileScreen extends StatelessWidget {
               },
             ),
             // Add more fields as needed
-            ElevatedButton(
+            CustomButton(
               onPressed: () {
                 if (user != null) {
                   authController
@@ -55,7 +56,7 @@ class EditProfileScreen extends StatelessWidget {
                   Get.snackbar('Success', 'Profile updated successfully');
                 }
               },
-              child: const Text('Save Changes'),
+              text: 'Save Changes',
             ),
           ],
         ),

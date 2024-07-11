@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/order_controller.dart';
 import '../controllers/auth_controller.dart';
+import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
 
 class CreateOrderScreen extends StatelessWidget {
@@ -31,6 +32,9 @@ class CreateOrderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Create Order Here"),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -54,9 +58,9 @@ class CreateOrderScreen extends StatelessWidget {
                 keyboardType: TextInputType.text,
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
+              CustomButton(
                 onPressed: _createOrder,
-                child: const Text('Create Order'),
+                text: 'Create Order',
               ),
             ],
           ),

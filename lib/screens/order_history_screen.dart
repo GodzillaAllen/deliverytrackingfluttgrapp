@@ -4,7 +4,7 @@ import '../controllers/order_controller.dart';
 import '../widgets/build_shipment_card.dart';
 
 class OrderHistoryScreen extends StatelessWidget {
-  final OrderController orderController = Get.put(OrderController());
+  final OrderController orderController = Get.find();
 
   OrderHistoryScreen({super.key});
 
@@ -27,8 +27,7 @@ class OrderHistoryScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final order = orders[index];
                 // buildShipmentCard(order.orderNumber, "${order.userLocation} · ${order.orderDate}")
-                return buildShipmentCard(order.orderNumber,
-                    "${order.userLocation} · ${order.orderDate}");
+                return buildShipmentCard(order);
                 // title: Text('Order ID: ${order.orderNumber}'),
                 // subtitle: Text('Order Date: ${order.orderDate}'),
                 // trailing: Text('Status: ${order.userLocation}'),

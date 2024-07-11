@@ -1,16 +1,13 @@
 // lib/widgets/build_shipment_card.dart
 import 'package:deliverytrackingfluttgrapp/models/order.dart';
+import 'package:deliverytrackingfluttgrapp/screens/order_accept_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../screens/order_detail_screen.dart';
-
-Widget buildShipmentCard(
-  Order order,
-) {
+Widget buildAcceptCard(Order order) {
   return InkWell(
     onTap: () {
-      Get.to(OrderDetailScreen(order: order));
+      Get.to(OrderAcceptScreen(order: order));
     },
     child: Card(
       margin: const EdgeInsets.all(8.0),

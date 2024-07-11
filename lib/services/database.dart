@@ -1,5 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import '../models/accepted_order.dart';
 import '../models/user.dart';
 import '../models/order.dart';
 
@@ -16,7 +17,7 @@ class DatabaseHelper {
   }
 
   Future<Database> _initDatabase() async {
-    String path = join(await getDatabasesPath(), 'wai.db');
+    String path = join(await getDatabasesPath(), 'wai5.db');
     return await openDatabase(
       path,
       version: 1,
@@ -48,6 +49,22 @@ class DatabaseHelper {
         orderDestination TEXT NOT NULL,
         status TEXT NOT NULL,
         FOREIGN KEY (userId) REFERENCES users (id)
+      )
+    ''');
+    await db.execute('''
+      CREATE TABLE accepted_orders (
+        delivery_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        customer_id INTEGER,
+        courier_id INTEGER,
+        accepted_time TEXT,
+        departure_time TEXT,
+        arrival_time TEXT,
+        orderNumber TEXT,
+        status TEXT,
+        FOREIGN KEY (customer_id) REFERENCES users (id),
+        FOREIGN KEY (courier_id) REFERENCES users (id),
+        FOREIGN KEY (orderNumber) REFERENCES orders (orderNumber)
+        FOREIGN KEY (status) REFERENCES orders (status)
       )
     ''');
   }
@@ -98,5 +115,60 @@ class DatabaseHelper {
     final result =
         await db.query('orders', where: 'userId = ?', whereArgs: [userId]);
     return result.map((json) => Order.fromMap(json)).toList();
+  }
+
+  Future<List<Order>> getPendingOrders() async {
+    // Example: Fetch orders where status is 'pending'
+    final db = await instance.database;
+    final result =
+        await db.query('orders', where: 'status = ?', whereArgs: ['pending']);
+    return result.map((json) => Order.fromMap(json)).toList();
+  }
+
+  Future<int> updateOrderStatus(int orderId, String status) async {
+    Database db = await instance.database;
+    return await db.update(
+      'orders',
+      {'status': status},
+      where: 'order_number = ?',
+      whereArgs: [orderId],
+    );
+  }
+
+  Future<int> createAcceptedOrder(AcceptedOrder acceptedOrder) async {
+    Database db = await instance.database;
+    return await db.insert('accepted_orders', acceptedOrder.toMap());
+  }
+
+  Future<List<AcceptedOrder>> getAcceptedOrders() async {
+    Database db = await instance.database;
+    final results = await db.query('accepted_orders');
+    return results.map((json) => AcceptedOrder.fromMap(json)).toList();
+  }
+
+  Future<List<AcceptedOrder>> getAcceptedOrdersByCustomerId(
+      int customerId) async {
+    Database db = await instance.database;
+    final results = await db.query('accepted_orders',
+        where: 'customer_id = ?', whereArgs: [customerId]);
+    return results.map((json) => AcceptedOrder.fromMap(json)).toList();
+  }
+
+  Future<List<AcceptedOrder>> getAcceptedOrdersByCourierId(
+      int courierId) async {
+    Database db = await instance.database;
+    final results = await db.query('accepted_orders',
+        where: 'courier_id = ?', whereArgs: [courierId]);
+    return results.map((json) => AcceptedOrder.fromMap(json)).toList();
+  }
+
+  Future<int> finishedOrderStatus(String orderNumber, String status) async {
+    Database db = await instance.database;
+    return await db.update(
+      'accepted_orders',
+      {'status': status},
+      where: 'orderNumber = ?',
+      whereArgs: [orderNumber],
+    );
   }
 }

@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import '../controllers/auth_controller.dart';
 import '../models/user.dart';
 import '../widgets/build_current_shipment_card.dart';
-import '../widgets/build_shipment_card.dart';
 import '../widgets/build_action_item.dart';
 import '../widgets/build_view_all_label.dart';
 
@@ -15,10 +14,14 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthController authController =
-        Get.put(AuthController()); // Use Get.find to retrieve AuthController
+    Get.find();
+    final AuthController authController = Get.find();
     final User? user = authController.user;
+
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Home page"),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -31,27 +34,17 @@ class HomeScreen extends StatelessWidget {
                     const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
-              TextField(
-                decoration: InputDecoration(
-                  hintText: 'Enter your tracking number',
-                  filled: true,
-                  fillColor: Colors.grey[200],
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
               const SizedBox(
                 height: 20,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  buildActionItem(Icons.create, 'Order Create', '/checkout'),
-                  buildActionItem(Icons.local_shipping, 'Pick Up', '/order'),
-                  buildActionItem(Icons.store, 'Drop Off', '/order'),
-                  buildActionItem(Icons.history, 'History', '/history'),
+                  buildActionItem(Icons.add, 'Create Order', '/create_order'),
+                  buildActionItem(
+                      Icons.delivery_dining, 'My Orders', '/accepted_by_user'),
+                  buildActionItem(
+                      Icons.check, 'Accepted Orders', '/accepted_by_courier'),
                 ],
               ),
               const SizedBox(height: 20),
@@ -85,8 +78,10 @@ class HomeScreen extends StatelessWidget {
                   buildViewAllLabel("recent_shipment"),
                 ],
               ),
-              buildShipmentCard("#HWDSF776567DS", "On the way · 24 June"),
-              buildShipmentCard("#HWDSF776567DS", "On the way · 24 June"),
+              buildCurrentShipmentCard("#HWDSF776567DS", "Yangon,Myanmar",
+                  "Hogwarts, Scotland", "on the way"),
+              buildCurrentShipmentCard("#HWDSF776567DS", "Yangon,Myanmar",
+                  "Hogwarts, Scotland", "on the way"),
             ],
           ),
         ),
